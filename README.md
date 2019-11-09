@@ -1,2 +1,16 @@
-# openports
-openports is a webserver that listens on a range of ports defined by environment variables
+# go-simple-website
+
+Run:  
+```
+make run
+```
+
+Run and open:  
+```
+make runo
+```
+
+Stop background process:  
+```
+make stop
+```
