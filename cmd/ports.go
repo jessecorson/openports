@@ -63,8 +63,9 @@ func openports(p []string) {
 func makePortList(rSlice []string) ([]int, error) {
 	// return []int{443}, nil
 	var pRange []int
-	// Checking how many values were given
-	if len(rSlice) < 2 {
+
+	switch l := len(rSlice); l {
+	case 1:
 		r := rSlice[0]
 
 		// Checking if it is meant to be all
@@ -72,6 +73,7 @@ func makePortList(rSlice []string) ([]int, error) {
 			pRange = makeRange(1, 65535)
 			return pRange, nil
 		}
+
 		// Checking if value can be converted to an int
 		p, err := strconv.Atoi(r)
 		if err != nil {
@@ -109,17 +111,17 @@ func makePortList(rSlice []string) ([]int, error) {
 		}
 		pRange = []int{p}
 		return pRange, nil
-	}
 
-	for _, a := range rSlice {
-		if i, err := strconv.Atoi(a); err == nil {
-			pRange = append(pRange, i)
+	default:
+		for _, a := range rSlice {
+			if i, err := strconv.Atoi(a); err == nil {
+				pRange = append(pRange, i)
+			}
 		}
+		sort.Ints(pRange)
+		pRange = unique(pRange)
+		return pRange, nil
 	}
-
-	sort.Ints(pRange)
-	pRange = unique(pRange)
-	return pRange, nil
 }
 
 func stringPortList(p []int) []string {
