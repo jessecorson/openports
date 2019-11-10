@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"net/http"
 	"sort"
@@ -41,7 +42,10 @@ func makeRange(min, max int) []int {
 
 func openports(p []string) {
 
-	a := makePortList(p)
+	a, err := makePortList(p)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	http.HandleFunc("/", handler)
 	for _, p := range a {
@@ -56,36 +60,55 @@ func openports(p []string) {
 	}
 }
 
-func makePortList(rSlice []string) []int {
-
+func makePortList(rSlice []string) ([]int, error) {
+	// return []int{443}, nil
 	var pRange []int
-	// Checking if port is an int
+	// Checking how many values were given
 	if len(rSlice) < 2 {
 		r := rSlice[0]
 
+		// Checking if it is meant to be all
 		if r == "all" {
 			pRange = makeRange(1, 65535)
-			return pRange
+			return pRange, nil
 		}
-
+		// Checking if value can be converted to an int
 		p, err := strconv.Atoi(r)
 		if err != nil {
 			// Checking if range
 			rSplit := strings.Split(r, "-")
-			if !(len(rSplit) > 2) {
+			// Making Range
+			if len(rSplit) == 2 {
 				for _, a := range rSplit {
 					if i, err := strconv.Atoi(a); err == nil {
 						pRange = append(pRange, i)
+					} else {
+						err = fmt.Errorf("%v is not a valid port", a)
+						log.Fatalln(err)
 					}
 				}
 				f := pRange[0]
 				l := pRange[1]
+				err = checkPort(f)
+				if err != nil {
+					log.Fatalln(err)
+				}
+				err = checkPort(l)
+				if err != nil {
+					log.Fatalln(err)
+				}
 				pRange := makeRange(f, l)
-				return pRange
+				return pRange, nil
 			}
+			// If not range and not int, defaulting to 443
+			err := fmt.Errorf("%v is not a valid port", r)
+			if err != nil {
+				log.Fatalln(err)
+			}
+			return pRange, nil
 		}
 		pRange = []int{p}
-		return pRange
+		return pRange, nil
 	}
 
 	for _, a := range rSlice {
@@ -96,7 +119,7 @@ func makePortList(rSlice []string) []int {
 
 	sort.Ints(pRange)
 	pRange = unique(pRange)
-	return pRange
+	return pRange, nil
 }
 
 func stringPortList(p []int) []string {
@@ -138,6 +161,14 @@ func connect(host string, ports []string) {
 }
 
 func scan(host string, ports []string) {
-	ports = stringPortList(makePortList(ports))
+	portList, _ := makePortList(ports)
+	ports = stringPortList(portList)
 	connect(host, ports)
+}
+
+func checkPort(p int) error {
+	if p < 0 || p > 65535 {
+		return fmt.Errorf("%v is not a valid port. TCP range is 0-65535", p)
+	}
+	return nil
 }

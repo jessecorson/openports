@@ -24,6 +24,6 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringSliceP("port", "p", []string{"0"}, "Port, Port range or Port list")
+	rootCmd.PersistentFlags().StringSliceP("port", "p", []string{"443"}, "Port, Port range or Port list")
 	viper.BindPFlag("port", rootCmd.PersistentFlags().Lookup("port"))
 }
