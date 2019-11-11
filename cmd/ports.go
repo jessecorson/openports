@@ -27,17 +27,17 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func makeRange(min, max int) []int {
+func makeRange(min, max int) ([]int, error) {
 
 	if min > max {
-		fmt.Printf("High port %v was less than low port %v, only using low port %v\n", max, min, min)
-		return []int{min}
+		err := fmt.Errorf("high port %v was less than low port %v, only using low port %v", max, min, min)
+		return nil, err
 	}
 	a := make([]int, max-min+1)
 	for i := range a {
 		a[i] = min + i
 	}
-	return a
+	return a, nil
 }
 
 func openports(p []string) {
@@ -70,7 +70,10 @@ func makePortList(rSlice []string) ([]int, error) {
 
 		// Checking if it is meant to be all
 		if r == "all" {
-			pRange = makeRange(1, 65535)
+			pRange, err := makeRange(1, 65535)
+			if err != nil {
+				return nil, err
+			}
 			return pRange, nil
 		}
 
@@ -86,28 +89,35 @@ func makePortList(rSlice []string) ([]int, error) {
 						pRange = append(pRange, i)
 					} else {
 						err = fmt.Errorf("%v is not a valid port", a)
-						log.Fatalln(err)
+						return nil, err
 					}
 				}
 				f := pRange[0]
 				l := pRange[1]
 				err = checkPort(f)
 				if err != nil {
-					log.Fatalln(err)
+					return nil, err
 				}
 				err = checkPort(l)
 				if err != nil {
-					log.Fatalln(err)
+					return nil, err
 				}
-				pRange := makeRange(f, l)
+				pRange, err := makeRange(f, l)
+				if err != nil {
+					return nil, err
+				}
 				return pRange, nil
 			}
 			// If not range and not int, defaulting to 443
 			err := fmt.Errorf("%v is not a valid port", r)
 			if err != nil {
-				log.Fatalln(err)
+				return nil, err
 			}
 			return pRange, nil
+		}
+		err = checkPort(p)
+		if err != nil {
+			return nil, err
 		}
 		pRange = []int{p}
 		return pRange, nil
@@ -115,6 +125,10 @@ func makePortList(rSlice []string) ([]int, error) {
 	default:
 		for _, a := range rSlice {
 			if i, err := strconv.Atoi(a); err == nil {
+				err = checkPort(i)
+				if err != nil {
+					return nil, err
+				}
 				pRange = append(pRange, i)
 			}
 		}
