@@ -27,7 +27,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func makeRange(min, max int) ([]int, error) {
+func makeRange(min int, max int) ([]int, error) {
 
 	if min > max {
 		err := fmt.Errorf("high port %v was less than low port %v, only using low port %v", max, min, min)
