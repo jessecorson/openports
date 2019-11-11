@@ -10,11 +10,8 @@ var (
 	userLicense string
 
 	rootCmd = &cobra.Command{
-		// Use:   "",
 		Short: "openports, get nauti",
 		Long:  `openports is a firewall testing tool. It allows you to create a range of listening ports.`,
-		// Run: func(cmd *cobra.Command, args []string) {
-		// },
 	}
 )
 
