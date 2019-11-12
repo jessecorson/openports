@@ -1,33 +1,12 @@
-################################
-# THIS IS PRIMARILY FOR MAC OS
-################################
+.phony: before_install rich_test
 
-.phony: runb runf stop open sleep
+before_install: 
+	go get -u github.com/kyoh86/richgo
 
-# Run in background
-runb:
-	go run main.go &
+rich_test:
+	richgo test -v ./...
 
-# Run in foreground
-runf:
-	go run main.go
+test: before_install rich_test
 
-# Force stop in background
-stop:
-	./helper-scripts.sh kill
-
-# Open in browser
-open:
-	sleep 1 ; open "http://localhost:8080"
-
-sleep:
-	sleep 1
-
-# Run in foreground
-run: runf
-
-# Run and open
-runo: runb sleep open
-
-# Rerun and open
-rerun: stopb sleep runb open
+testf:
+	go test -v ./...
