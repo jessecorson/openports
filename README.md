@@ -1,10 +1,8 @@
 # openports
 
-<center><img src="https://github.com/jessecorson/openports/raw/master/logo/logo.png" width="300"></center>
+<img src="https://github.com/jessecorson/openports/raw/master/logo/logo.png" width="300">
 
-**openports is a port scanning tool**
-
-openports allows you to listen on or scan any designated TCP port, list of ports or range of ports
+openports is a port scanning tool. openports allows you to listen on or scan any designated TCP port, list of ports or range of ports. This allows you to create a listening server on one side of a possible network restriction (firewall, security group, acl), and then scan the desired ports to verify if a connection can be made.
 
 ## Usage
 
