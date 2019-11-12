@@ -2,7 +2,7 @@
 
 <center><img src="https://github.com/jessecorson/openports/raw/master/logo/logo.png" width="300"></center>
 
-openports is a port scanning tool
+**openports is a port scanning tool**
 
 openports allows you to listen on or scan any designated TCP port, list of ports or range of ports
 
