@@ -1,6 +1,6 @@
 # openports
 
-<img src="https://github.com/jessecorson/openports/raw/master/logo/logo.png" width="200">
+<center><img src="https://github.com/jessecorson/openports/raw/master/logo/logo.png" width="400"></center>
 
 openports is a port scanning tool
 
