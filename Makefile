@@ -10,3 +10,6 @@ test: before_install rich_test
 
 testf:
 	go test -v ./...
+
+install:
+	go install
