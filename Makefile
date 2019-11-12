@@ -13,3 +13,14 @@ testf:
 
 install:
 	go install
+
+.phone: build-linux build-mac build-windows
+
+build-linux:
+	env GOOS=linux GOARCH=arm go build -o bin/linux/openports
+build-mac:
+	env GOOS=darwin go build -o bin/darwin/openports
+build-windows:
+	env GOOS=windows GOARCH=386 go build -o bin/windows/openports.exe
+
+build-binaries: build-linux build-mac build-windows
