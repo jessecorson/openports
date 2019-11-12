@@ -11,7 +11,7 @@ var (
 
 	rootCmd = &cobra.Command{
 		Short: "openports, get nauti",
-		Long:  `openports is a firewall testing tool. It allows you to create a range of listening ports.`,
+		Long:  `openports is a port scanning tool. openports allows you to listen on or scan any designated TCP port, list of ports or range of ports.`,
 	}
 )
 
