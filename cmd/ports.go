@@ -17,9 +17,10 @@ var (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
+
 	switch path := r.URL.Path[1:]; path {
 	case "":
-		fmt.Fprintf(w, "Hello world!")
+		fmt.Fprintf(w, "openports")
 	case "help":
 		fmt.Fprintf(w, helpHTML)
 	default:
