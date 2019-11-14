@@ -4,6 +4,8 @@ import (
 	"./cmd"
 )
 
+//openports
+
 func main() {
 	cmd.Execute()
 }
