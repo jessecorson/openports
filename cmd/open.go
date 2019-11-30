@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/jessecorson/openports/pkg/ports"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -14,6 +15,6 @@ var openCmd = &cobra.Command{
 	Short: "Listen on TCP ports",
 	Long:  `Listen on ports specified`,
 	Run: func(cmd *cobra.Command, args []string) {
-		openports(viper.GetStringSlice("port"))
+		ports.Openports(viper.GetStringSlice("port"))
 	},
 }

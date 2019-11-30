@@ -1,4 +1,4 @@
-package cmd
+package ports
 
 import (
 	"fmt"
@@ -41,7 +41,8 @@ func makeRange(min int, max int) ([]int, error) {
 	return a, nil
 }
 
-func openports(p []string) {
+// Openports opens ports
+func Openports(p []string) {
 
 	a, err := makePortList(p)
 	if err != nil {
@@ -177,7 +178,8 @@ func connect(host string, ports []string) {
 	}
 }
 
-func scan(host string, ports []string) {
+// Scan for open ports
+func Scan(host string, ports []string) {
 	portList, _ := makePortList(ports)
 	ports = stringPortList(portList)
 	connect(host, ports)
