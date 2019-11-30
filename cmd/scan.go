@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/jessecorson/openports/pkg/ports"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -14,7 +15,7 @@ var scanCmd = &cobra.Command{
 	Short: "Scan for open TCP ports",
 	Long:  "Scan for open TCP ports. The -p flag can be used as a single port, a range, or a list",
 	Run: func(cmd *cobra.Command, args []string) {
-		scan(viper.GetString("target"), viper.GetStringSlice("port"))
+		ports.Scan(viper.GetString("target"), viper.GetStringSlice("port"))
 	},
 }
 
